@@ -65,10 +65,6 @@ namespace ExaminationPersNr
             {
                 Console.WriteLine("man");
             }
-            else
-            {
-                Console.WriteLine("error");
-            }
             return birthNr.ToString();
         }
         static void CheckInputs(string inputs)
