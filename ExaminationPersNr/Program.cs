@@ -17,8 +17,7 @@ namespace ExaminationPersNr
             userInput = Console.ReadLine();
             CheckInputs(userInput);
             // convert input
-            int year = int.Parse(userInput.Substring(0, 4));
-
+           
             // stop
             Console.ReadKey();
         }
@@ -27,16 +26,39 @@ namespace ExaminationPersNr
         {
             if (input.Length == 12)
             {
-                Console.WriteLine("your lenght is " + input.Length);
+                //Console.WriteLine("your lenght is " + input.Length);
             }
             else
             {
                 Console.WriteLine("Enter 12 digit");
             }
         }
+        static bool CheckSpecialYear(string input)
+        {
+            int year = int.Parse(input.Substring(0, 4));
+            if (year % 400 == 0)
+            {
+                return true;
+            }
+            else if (year % 100 == 0)
+            {
+                return false;
+            }
+            else if (year % 4 == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+           
+
+        }
         static void CheckInputs(string inputs)
         {
             CheckLenght(inputs);
+            CheckSpecialYear(inputs);
         }
     }
 }
