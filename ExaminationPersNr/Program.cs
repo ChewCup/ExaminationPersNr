@@ -21,7 +21,6 @@ namespace ExaminationPersNr
             // stop
             Console.ReadKey();
         }
-        //check input length
         static void CheckLenght(string input)
         {
             if (input.Length == 12)
@@ -55,10 +54,28 @@ namespace ExaminationPersNr
            
 
         }
+        static string CheckGender(string input)
+        {
+            int birthNr = int.Parse(input.Substring(8, 3));
+            if (birthNr % 2 == 0)
+            {
+                Console.WriteLine("kvinna");
+            }
+            else if (birthNr % 2 != 0)
+            {
+                Console.WriteLine("man");
+            }
+            else
+            {
+                Console.WriteLine("error");
+            }
+            return birthNr.ToString();
+        }
         static void CheckInputs(string inputs)
         {
             CheckLenght(inputs);
             CheckSpecialYear(inputs);
+            CheckGender(inputs);
         }
     }
 }
