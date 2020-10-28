@@ -25,10 +25,10 @@ namespace ExaminationPersNr
         }
         static void CheckInputIdNumber(string inputId)
         {
-            int Year = int.Parse(inputId.Substring(0, 4));
-            int Month = int.Parse(inputId.Substring(4, 2));
-            int Day = int.Parse(inputId.Substring(6, 2));
-            if (inputId.Length == 12 && (Year >= 1753 && Year <= 2020) && (Month >= 1 && Month <= 12) && (Day >= 1 && Day <= 31))
+            int year = int.Parse(inputId.Substring(0, 4));
+            int month = int.Parse(inputId.Substring(4, 2));
+            int day = int.Parse(inputId.Substring(6, 2));
+            if (inputId.Length == 12 && (year >= 1753 && year <= 2020) && (month >= 1 && month <= 12) && (day >= 1 && day <= 31))
             {
                 CheckDaysInMonth(inputId);
             }
@@ -57,9 +57,71 @@ namespace ExaminationPersNr
                 return false;
             }
         }
-        static void CheckDaysInMonth(string input)
+        static void CheckDaysInMonth(string inputId)
         {
-            
+            int maxDays;
+            string year = inputId.Substring(0, 4);
+            int month = int.Parse(inputId.Substring(4, 2));
+            int day = int.Parse(inputId.Substring(6, 2));
+            switch (month)
+            {
+                case 1:
+                case 3:
+                case 5:
+                case 7:
+                case 8:
+                case 10:
+                case 12:
+                    maxDays = 31;
+                    if (day > maxDays)
+                    {
+                        Console.WriteLine("Wrong date in month");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Correct date");
+                    }
+                    break;
+                case 4:
+                case 6:
+                case 9:
+                case 11:
+                    maxDays = 30;
+                    if (day > maxDays)
+                    {
+                        Console.WriteLine("Wrong date in month");
+                    }
+                    else
+                    {
+                        Console.WriteLine("correct date");
+                    }
+                    break;
+
+                case 2:
+                    maxDays = 28;
+                    if (CheckSpecialYear(year))
+                    {
+                        maxDays = 29;
+                        if (day > maxDays)
+                        {
+                            Console.WriteLine("Wrong date in month");
+                        }
+                        else
+                        {
+                            Console.WriteLine("correct");
+                        }
+                        break;
+                    }
+                    else if (day > maxDays)
+                    {
+                        Console.WriteLine("Wrong date in month");
+                    }
+                    else
+                    {
+                        Console.WriteLine("correct date");
+                    }
+                    break;
+            }
         }
         static string CheckGender(string input)
         {
