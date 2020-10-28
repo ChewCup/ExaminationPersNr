@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ExaminationPersNr
@@ -13,28 +14,32 @@ namespace ExaminationPersNr
             // declare
             string userInput;
             // user input
-            Console.Write("Enter your birth ID: ");
+            Console.Write("Enter your birth Id number (12 digits): ");
             userInput = Console.ReadLine();
-            CheckInputs(userInput);
-            // convert input
-           
+            // Check length, year, month and day of the input Id
+            CheckInputIdNumber(userInput);
+            // print gender
+            CheckGender(userInput);
             // stop
             Console.ReadKey();
         }
-        static void CheckLenght(string input)
+        static void CheckInputIdNumber(string inputId)
         {
-            if (input.Length == 12)
+            int Year = int.Parse(inputId.Substring(0, 4));
+            int Month = int.Parse(inputId.Substring(4, 2));
+            int Day = int.Parse(inputId.Substring(6, 2));
+            if (inputId.Length == 12 && (Year >= 1753 && Year <= 2020) && (Month >= 1 && Month <= 12) && (Day >= 1 && Day <= 31))
             {
-                //Console.WriteLine("your lenght is " + input.Length);
+                CheckDaysInMonth(inputId);
             }
             else
             {
-                Console.WriteLine("Enter 12 digit");
+                Console.WriteLine("Incorrect Id number!");
             }
         }
-        static bool CheckSpecialYear(string input)
+        static bool CheckSpecialYear(string inputYear)
         {
-            int year = int.Parse(input.Substring(0, 4));
+            int year = int.Parse(inputYear.Substring(0, 4));
             if (year % 400 == 0)
             {
                 return true;
@@ -51,27 +56,29 @@ namespace ExaminationPersNr
             {
                 return false;
             }
-           
-
+        }
+        static void CheckDaysInMonth(string input)
+        {
+            
         }
         static string CheckGender(string input)
         {
-            int birthNr = int.Parse(input.Substring(8, 3));
-            if (birthNr % 2 == 0)
+            int birthNumber = int.Parse(input.Substring(8, 3));
+            if (birthNumber % 2 == 0)
             {
-                Console.WriteLine("kvinna");
+                Console.Write("Women");
             }
-            else if (birthNr % 2 != 0)
+            else if (birthNumber % 2 != 0)
             {
-                Console.WriteLine("man");
+                Console.Write("Man");
             }
-            return birthNr.ToString();
+            return birthNumber.ToString();
         }
-        static void CheckInputs(string inputs)
+        /*static void CheckInputs(string inputs)
         {
             CheckLenght(inputs);
-            CheckSpecialYear(inputs);
             CheckGender(inputs);
-        }
+            CheckDaysInMonth(inputs);
+        }*/
     }
 }
