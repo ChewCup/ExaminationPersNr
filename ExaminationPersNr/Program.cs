@@ -12,29 +12,39 @@ namespace ExaminationPersNr
         static void Main(string[] args)
         {
             // declare
-            string userInput;
+            string userInputIdNumber;
             // user input
-            Console.Write("Enter your birth Id number (12 digits): ");
-            userInput = Console.ReadLine();
-            // Check length, year, month and day of the input Id
-            CheckInputIdNumber(userInput);
-            // print gender
-            CheckGender(userInput);
+            Console.Write("Enter your Id number (12 digits): ");
+            userInputIdNumber = Console.ReadLine();
+            // Check length, year, month and day of user input
+            CheckInputIdNumber(userInputIdNumber);
             // stop
             Console.ReadKey();
         }
-        static void CheckInputIdNumber(string inputId)
+        static void CheckInputIdNumber(string userinputId)
         {
-            int year = int.Parse(inputId.Substring(0, 4));
-            int month = int.Parse(inputId.Substring(4, 2));
-            int day = int.Parse(inputId.Substring(6, 2));
-            if (inputId.Length == 12 && (year >= 1753 && year <= 2020) && (month >= 1 && month <= 12) && (day >= 1 && day <= 31))
+
+            if (CheckIdLength(userinputId))
             {
-                CheckDaysInMonth(inputId);
-            }
-            else
-            {
-                Console.WriteLine("Incorrect Id number!");
+                int year = int.Parse(userinputId.Substring(0, 4));
+                int month = int.Parse(userinputId.Substring(4, 2));
+                int day = int.Parse(userinputId.Substring(6, 2));
+                if (year >= 1753 && year <= 2020 && month >= 1 && month <= 12 && day >= 1 && day <= 31)
+                {
+                    CheckDaysInMonth(userinputId);
+                }
+                if (year < 1753 || year > 2020)
+                {
+                    Console.WriteLine("Year is incorrect");
+                }
+                if (month < 1 || month > 12)
+                {
+                    Console.WriteLine("Month is incorrect");
+                }
+                if (day < 1 || day > 31)
+                {
+                    Console.WriteLine("Day is incorrect");
+                }
             }
         }
         static bool CheckSpecialYear(string inputYear)
@@ -57,12 +67,12 @@ namespace ExaminationPersNr
                 return false;
             }
         }
-        static void CheckDaysInMonth(string inputId)
+        static void CheckDaysInMonth(string userinputId)
         {
             int maxDays;
-            string year = inputId.Substring(0, 4);
-            int month = int.Parse(inputId.Substring(4, 2));
-            int day = int.Parse(inputId.Substring(6, 2));
+            string year = userinputId.Substring(0, 4);
+            int month = int.Parse(userinputId.Substring(4, 2));
+            int day = int.Parse(userinputId.Substring(6, 2));
             switch (month)
             {
                 case 1:
@@ -75,11 +85,12 @@ namespace ExaminationPersNr
                     maxDays = 31;
                     if (day > maxDays)
                     {
-                        Console.WriteLine("Wrong date in month");
+                        Console.WriteLine("Wrong date in the month");
                     }
                     else
                     {
-                        Console.WriteLine("Correct date");
+                        Console.WriteLine("Your Id number is correct");
+                        CheckGender(userinputId);
                     }
                     break;
                 case 4:
@@ -89,14 +100,14 @@ namespace ExaminationPersNr
                     maxDays = 30;
                     if (day > maxDays)
                     {
-                        Console.WriteLine("Wrong date in month");
+                        Console.WriteLine("Wrong date in the month");
                     }
                     else
                     {
-                        Console.WriteLine("correct date");
+                        Console.WriteLine("Your Id number is correct");
+                        CheckGender(userinputId);
                     }
                     break;
-
                 case 2:
                     maxDays = 28;
                     if (CheckSpecialYear(year))
@@ -104,43 +115,51 @@ namespace ExaminationPersNr
                         maxDays = 29;
                         if (day > maxDays)
                         {
-                            Console.WriteLine("Wrong date in month");
+                            Console.WriteLine("Your Id number is incorrect");
                         }
                         else
                         {
-                            Console.WriteLine("correct");
+                            Console.WriteLine("Your Id number is correct");
+                            CheckGender(userinputId);
                         }
                         break;
                     }
                     else if (day > maxDays)
                     {
-                        Console.WriteLine("Wrong date in month");
+                        Console.WriteLine("Is not a special year (Inte skottår)");
                     }
                     else
                     {
-                        Console.WriteLine("correct date");
+                        Console.WriteLine("Your Id number is correct");
+                        CheckGender(userinputId);
                     }
                     break;
             }
         }
-        static string CheckGender(string input)
+        static string CheckGender(string inputBirthNumber)
         {
-            int birthNumber = int.Parse(input.Substring(8, 3));
+            int birthNumber = int.Parse(inputBirthNumber.Substring(8, 3));
             if (birthNumber % 2 == 0)
             {
-                Console.Write("Women");
+                Console.Write("You are a woman");
             }
             else if (birthNumber % 2 != 0)
             {
-                Console.Write("Man");
+                Console.Write("You are a man");
             }
             return birthNumber.ToString();
         }
-        /*static void CheckInputs(string inputs)
+        static bool CheckIdLength(string InputId)
         {
-            CheckLenght(inputs);
-            CheckGender(inputs);
-            CheckDaysInMonth(inputs);
-        }*/
+            if (InputId.Length == 12)
+            {
+                return true;
+            }
+            else if (InputId.Length != 12)
+            {
+                Console.WriteLine("Length of your Id number is incorrect");
+            }
+            return false;
+        }
     }
 }
